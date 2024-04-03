@@ -52,7 +52,7 @@ import { CountDownPipe } from './count-down.pipe';
     provideImgixLoader("https://bidding-system.imgix.net/"),
     {
       provide: APP_INITIALIZER,
-      deps: [RealmAppService, UserService],
+      deps: [RealmAppService],
       useFactory: initializeApp,
       multi: true
     }
