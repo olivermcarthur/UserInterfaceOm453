@@ -1,16 +1,77 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  <meta name="description" content="Demo of MongoDB Atlas App Services and the Realm SDK">
-  <title>BiddingSystem</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>In-Hospital Patient Tracking System</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: calc(100vh - 60px); /* Adjusted for the height of the header */
+      width: 100%;
+    }
+    #title {
+      font-size: 24px; /* Large font size */
+      font-weight: bold; /* Bold font weight */
+      color: #002D88; /* Font color */
+      text-align: center; /* Center the title */
+      padding: 10px; /* Add some padding around the text */
+    }
+    /* Additional styles for your page */
+    .leaflet-popup-content-wrapper {
+      text-align: center;
+    }
+  </style>
 </head>
+<body>
+
+<div id="title">In-Hospital Patient Location Tracking System</div>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  // Create the map
+  var map = L.map('map', {
+    minZoom: 1,
+    maxZoom: 4,
+    center: [0, 0],
+    zoom: 1,
+    crs: L.CRS.Simple // Use a simple coordinate reference system
+  });
+
+  // Assuming your floorplan is 1000x600 pixels
+  var w = 2048,
+      h = 1184,
+      url = './public/basicfp1.jpg'; // Replace with the actual URL to your floorplan image
+
+// Set the bottom left of the image at (0, 0)
+  var southWest = map.unproject([0, 0], map.getMaxZoom()),
+      northEast = map.unproject([w, -h], map.getMaxZoom()),
+      bounds = new L.LatLngBounds(southWest, northEast);
+
+  L.imageOverlay(url, bounds).addTo(map);
+
+  // Set the view to fit the image bounds
+  map.fitBounds(bounds);
+
+
+  var circle = L.circle([74, 128], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 0.1 // The radius is in meters
+}).addTo(map);
+circle.bindPopup('I am a circle.');
+
+var circle = L.circle([5.8, 5.75], {
+    color: 'blue',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 0.1 // The radius is in meters
+}).addTo(map);
+circle.bindPopup('I am a circle.');
+
+</script>
+
+</body>
 <body class="mat-typography">
   <app-root></app-root>
 </body>
