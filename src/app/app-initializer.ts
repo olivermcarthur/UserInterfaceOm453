@@ -1,7 +1,6 @@
 import { RealmAppService } from "./realm-app.service";
-import { UserService } from "./user.service";
 
-export function initializeApp(realmAppService: RealmAppService, userService: UserService) {
+export function initializeApp(realmAppService: RealmAppService) {
   return () => new Promise(async (resolve, reject) => {
     try {
       const app = await realmAppService.getAppInstance();

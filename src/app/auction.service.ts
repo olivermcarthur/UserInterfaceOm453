@@ -3,7 +3,6 @@ import { ObjectId } from './helpers/objectId';
 import { fromChangeEvent } from './custom-operators';
 import { RealmAppService } from './realm-app.service';
 import { Auction } from './auction';
-import { isInUsernamesList } from './usernames';
 import { filter, map } from 'rxjs/operators';
 
 const isUpdateEvent = (event: any): event is Realm.Services.MongoDB.UpdateEvent<any> =>
@@ -84,9 +83,6 @@ export class AuctionService {
   }
 
   async bid(auction: Auction, username: string, increment: number = 1) {
-    if (!isInUsernamesList(username)) {
-      return;
-    }
 
     const app = await this.realmAppService.getAppInstance();
     app.currentUser?.functions['bid']({

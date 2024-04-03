@@ -15,11 +15,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuctionCatalogueComponent } from './auction-catalogue/auction-catalogue.component';
 import { AuctionDetailsComponent } from './auction-details/auction-details.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CountDownComponent } from './count-down/count-down.component';
 import { RealmAppService } from './realm-app.service';
-import { UserService } from './user.service';
 import { initializeApp } from './app-initializer';
 import { CountDownPipe } from './count-down.pipe';
 
@@ -28,7 +26,6 @@ import { CountDownPipe } from './count-down.pipe';
     AppComponent,
     AuctionCatalogueComponent,
     AuctionDetailsComponent,
-    NavbarComponent,
     CountDownComponent,
     CountDownPipe,
   ],

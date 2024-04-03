@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { AuctionService } from '../auction.service';
 import { DocumentUpdate } from '../helpers/documentUpdate';
 import { compareIds } from '../helpers/objectId';
-import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-auction-details',
@@ -22,7 +21,6 @@ export class AuctionDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private auctionService: AuctionService,
-    private userService: UserService,
   ) {
   }
 
@@ -48,7 +46,7 @@ export class AuctionDetailsComponent implements OnInit, OnDestroy {
   }
 
   bid(increment: number) {
-    this.auctionService.bid(this.auction, this.userService.username, increment);
+    this.auctionService.bid(this.auction, "Dave", increment);
   }
 
   private async startBiddingWatcher(id: string) {
