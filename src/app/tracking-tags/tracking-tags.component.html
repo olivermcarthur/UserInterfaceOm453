@@ -1,0 +1,12 @@
+<h1 class="center">Active Tracking Tags</h1>
+
+<div *ngFor="let tag of trackingTags">
+    <p>ID: {{ tag._id }}</p>
+    <p>Last Update: {{ tag.Time_of_update | date: 'medium' }}</p>
+    <p>Tag ID: {{ tag.TagID }}</p>
+    <p>EPR URL: {{ tag.EPR_URL }}</p>
+    <p>Receiver ID: {{ tag.receiver_id }}</p>
+    <p>Radius: {{ tag.radius }}</p>
+    <p>Location: X: {{ tag.location.xg_location }}, Y: {{ tag.location.yg_location }}</p>
+  </div>
+  

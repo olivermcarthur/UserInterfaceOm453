@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AuctionService } from '../auction.service';
+import { TrackerTagService } from '../tracker_tags.service';
 import { compareIds } from '../helpers/objectId';
 import { DocumentUpdate } from '../helpers/documentUpdate';
-import { Auction } from '../auction';
+import { TrackingTag } from '../tracker_tags';
 
 @Component({
   selector: 'app-auction-catalogue',

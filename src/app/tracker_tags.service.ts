@@ -5,8 +5,12 @@ import { RealmAppService } from './realm-app.service';
 import { TrackingTag } from './tracker_tags';
 import { filter, map } from 'rxjs/operators';
 
-const isUpdateEvent = (event: any): event is Realm.Services.MongoDB.UpdateEvent<any> =>
-  event.operationType === 'update';
+// const isRelevantEvent = (event: any): event is Realm.Services.MongoDB.ChangeEvent<any> =>
+//   event.operationType === 'insert' ||
+//   event.operationType === 'update' ||
+//   event.operationType === 'delete';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -65,20 +69,19 @@ async load() {
 }
 
 // Asynchronously sets up a change stream watcher on a collection for specific IDs
-async getCollectionWatcher(ids: any[]) {
-  if (!ids.length) {
-    return; // If no IDs are provided, return early
-  }
+async getCollectionWatcher() {
   const collection = await this.getCollection(); // Get the collection from the database
   if (!collection) {
     return; // If the collection is not loaded, return early
   }
-  const objectIds = ids.map(id => new ObjectId(id)); // Convert the string IDs to ObjectId
-  const generator = collection.watch({ ids: objectIds }); // Set up the change stream watcher
+  const generator = collection.watch({}); // Set up the change stream watcher
   // Convert the change stream to an Observable and filter/map the results
   return fromChangeEvent(generator).pipe(
-    filter(isUpdateEvent), 
-    map(event => ({ updateDescription: event.updateDescription, _id: event.documentKey._id })) // Map the event to only include necessary data
+    map(event => ({
+      operationType: event.operationType,
+      clusterTime: event.clusterTime,
+      updateDescription: event._id,
+    }))
   );
 }
 
@@ -99,6 +102,11 @@ private async getCollection() {
   // Get the client for 'mongodb-atlas' service and the 'auctions' database, then the 'cars' collection
   const mongo = app.currentUser?.mongoClient('mongodb-atlas');
   const collection = mongo?.db('Test1').collection<TrackingTag>('T_tags');
+
+  if (!collection) {
+    throw new Error('Failed to connect to server.');
+  } 
+
   return collection; // Return the collection object
 }
 }

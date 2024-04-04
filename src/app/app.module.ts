@@ -10,10 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuctionCatalogueComponent } from './auction-catalogue/auction-catalogue.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RealmAppService } from './realm-app.service';
 import { initializeApp } from './app-initializer';
@@ -21,7 +19,6 @@ import { initializeApp } from './app-initializer';
 @NgModule({
   declarations: [
     AppComponent,
-    AuctionCatalogueComponent,
   ],
   imports: [
     AppRoutingModule,
