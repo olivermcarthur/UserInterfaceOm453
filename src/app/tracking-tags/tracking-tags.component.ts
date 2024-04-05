@@ -5,10 +5,10 @@ import { TrackingTag } from '../tracker_tags';
 
 @Component({
   selector: 'app-auction-catalogue',
-  templateUrl: './auction-catalogue.component.html',
-  styleUrls: ['./auction-catalogue.component.scss']
+  templateUrl: './tracking-tags.component.html',
+  styleUrls: ['./tracking-tags.component.scss']
 })
-export class AuctionCatalogueComponent implements OnInit, OnDestroy {
+export class TrackerTagComponent implements OnInit, OnDestroy {
   private updatesSubscription: Subscription;
   trackingTags: TrackingTag[] = []; // Store the tracking tags
 
@@ -37,18 +37,30 @@ export class AuctionCatalogueComponent implements OnInit, OnDestroy {
   }
 
   private updateTrackingTag(update: any) {
+    // Find the index of the tracking tag in the local array that matches the _id of the updated tag
     const updatedTagIndex = this.trackingTags.findIndex(tag => tag._id === update.documentKey._id);
+  
+    // Check if the updated tracking tag is found in the local array
     if (updatedTagIndex !== -1) {
-      // If update includes the full document, replace the existing tag
+      // If the update includes the entire updated document (fullDocument),
+      // replace the existing tag at the found index with the new document.
       if (update.fullDocument) {
         this.trackingTags[updatedTagIndex] = update.fullDocument;
       } else {
-        // Otherwise, apply the individual field updates
+        // If the update does not include the full document, but rather just the fields that changed,
+        // we apply those individual field updates to the existing tag.
+        
+        // update.updateDescription.updatedFields contains the fields that have changed
+        // If it does not exist, default to an empty object.
         const updatedFields = update.updateDescription?.updatedFields || [];
+        
+        // Iterate over the updated fields and update the corresponding fields
+        // in the existing tracking tag at the found index.
         Object.keys(updatedFields).forEach(field => {
           (this.trackingTags[updatedTagIndex] as any)[field] = updatedFields[field];
         });
       }
     }
   }
+  
 }
