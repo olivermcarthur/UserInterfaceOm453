@@ -12,6 +12,7 @@ export interface Location {
 
 export interface TrackingTag {
   _id: BSON.ObjectId | string;
+  Active: boolean;
   Time_of_update: Date;
   TagID: number;
   EPR_URL: string;

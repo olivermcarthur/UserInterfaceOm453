@@ -4,19 +4,6 @@ import { fromChangeEvent } from './custom-operators';
 import { RealmAppService } from './realm-app.service';
 import { TrackingTag } from './tracker_tags';
 import { filter, map } from 'rxjs/operators';
-import { BSON } from 'realm-web';
-
-
-// const isRelevantEvent = (event: any): event is Realm.Services.MongoDB.ChangeEvent<any> =>
-//   event.operationType === 'insert' ||
-//   event.operationType === 'update' ||
-//   event.operationType === 'delete';
-
-// Use the same Location interface as in tracker_tags.ts
-export interface Location {
-  x: BSON.Decimal128;
-  y: BSON.Decimal128;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -35,31 +22,6 @@ export class TrackerTagService {
 
     return collection.findOne({ _id: new ObjectId(id)}); // Return the document with the specified ID
   }
- //Asynchronously searches the collection using a text search - think this was for the search bar
- async search(query: string) {
-  const collection = await this.getCollection(); // Get the collection from the database
-  // Use MongoDB's aggregation pipeline to perform the search and return a promise of the results
-  return collection?.aggregate([
-    {
-      $search: {
-        index: 'auctions_search', // Specifies the index to use for the search
-        autocomplete: { // Specifies that an autocomplete search should be used
-          path: 'name', // The field in the document to search
-          query, // The search string
-        }
-      }
-    },
-    {
-      $limit: 5 // Limit the number of results returned
-    },
-    {
-      $project: { // Specifies the fields to return in the results
-        _id: 1,
-        name: 1,
-      }
-    }
-  ]) as Promise<TrackingTag[]>; // Casts the result to a promise of an array of Auction objects
-}
 
 // Asynchronously loads a specified number of documents from the collection
 async load() {
@@ -83,24 +45,47 @@ async getCollectionWatcher() {
   const generator = collection.watch({}); // Set up the change stream watcher
   // Convert the change stream to an Observable and filter/map the results
   return fromChangeEvent(generator).pipe(
-    map(event => ({
-      operationType: event.operationType,
-      clusterTime: event.clusterTime,
-      updateDescription: event._id,
-    }))
+    filter(event => 
+      event.operationType === 'insert' || 
+      event.operationType === 'delete' || 
+      event.operationType === 'update'
+    ),
+    map(event => {
+      switch (event.operationType) {
+        case 'insert': {
+          const insertEvent = event as Realm.Services.MongoDB.InsertEvent<TrackingTag>;
+          console.log('Insert event:', insertEvent);
+          return {
+            operationType: insertEvent.operationType,
+          };
+        }
+        case 'delete': {
+          const deleteEvent = event as Realm.Services.MongoDB.DeleteEvent<TrackingTag>;
+          console.log('Delete event:', deleteEvent);
+          return {
+            operationType: deleteEvent.operationType,
+          };
+        }
+        case 'update': {
+          const updateEvent = event as Realm.Services.MongoDB.UpdateEvent<TrackingTag>;
+          console.log('Update event:', updateEvent);
+          return {
+            documentKey: updateEvent.documentKey,
+            operationType: updateEvent.operationType,
+            updateDescription: updateEvent.fullDocument,
+          };
+        }
+        default: {
+          // Log unexpected operation type and return null or some default object
+          console.log('Unexpected operationType:', event.operationType);
+          return null; // or return { operationType: event.operationType };
+        }
+      }
+    }),
+    filter(result => result !== null) // This will filter out the null results
   );
 }
 
-// Asynchronously attempts to place a bid on an auction item
-// async bid(auction: TrackingTag, username: string, increment: number = 1) {
-//   const app = await this.realmAppService.getAppInstance(); // Get the app instance from RealmAppService
-//   // Call a Realm function 'bid' as the current user with the provided parameters
-//   app.currentUser?.functions['bid']({
-//     auction,
-//     username,
-//     increment
-//   });
-// }
 
 // Private helper method to asynchronously retrieve the MongoDB collection
 private async getCollection() {
@@ -112,7 +97,6 @@ private async getCollection() {
   if (!collection) {
     throw new Error('Failed to connect to server.');
   } 
-
   return collection; // Return the collection object
 }
 }
