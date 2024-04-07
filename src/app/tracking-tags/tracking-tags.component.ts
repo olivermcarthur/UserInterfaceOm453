@@ -9,6 +9,7 @@ import { BSON } from 'realm-web';
   templateUrl: './tracking-tags.component.html',
   styleUrls: ['./tracking-tags.component.scss']
 })
+
 export class TrackerTagComponent implements OnInit, OnDestroy {
   private updatesSubscription: Subscription;
   trackingTags: TrackingTag[] = [];
@@ -61,26 +62,38 @@ export class TrackerTagComponent implements OnInit, OnDestroy {
       return localId === updateId;
     });
 
-    console.log(`Index of updated tag: ${updatedTagIndex}`);
-    console.log ("this.trackingTags = ", this.trackingTags)
-    console.log ("this.trackingTags = ", this.trackingTags[updatedTagIndex])
+    // console.log ("this.trackingTags = ", this.trackingTags[updatedTagIndex])
+    // console.log("tag data from update = ", update.updateDescription)
 
     if (updatedTagIndex !== -1) {
+      // If the update includes the fullDocument, replace the local object entirely
       if (update.fullDocument) {
-        console.log('Received fullDocument:', update.fullDocument);
         this.trackingTags[updatedTagIndex] = update.fullDocument;
-      } else {
-        const updatedFields = update.updateDescription?.updatedFields || [];
-        console.log('Updated fields:', updatedFields);
-        
-        Object.keys(updatedFields).forEach(field => {
-          console.log(`Updating field ${field}:`, updatedFields[field]);
-          (this.trackingTags[updatedTagIndex] as any)[field] = updatedFields[field];
-        });
+        console.log('Replaced with full document, and is now:', this.trackingTags[updatedTagIndex]);
+      } 
+      else {
+        // If only updated fields are provided, merge them with the existing object
+        // const updatedFields = update.updateDescription?.updatedFields;
+        // if (updatedFields) {
+        //   // Merge existing fields with updatedFields
+        //   Object.assign(this.trackingTags[updatedTagIndex], updatedFields);
+        //   console.log('Merged updated fields:', this.trackingTags[updatedTagIndex]);
+        // }
+    
+        // If there are removed fields provided in the update description
+        const removedFields = update.updateDescription?.removedFields;
+        if (removedFields) {
+          // Remove the fields that are not present in updatedFields
+          removedFields.forEach((field: string) => {
+            delete (this.trackingTags[updatedTagIndex] as any)[field];
+          });
+          console.log('Removed specified fields:', this.trackingTags[updatedTagIndex]);
+        }
+      console.log("Update complete")
       }
-
-       
+    } 
+    else {
       console.log('No matching tracking tag found in local data for update:', update);
-      }
     }
+  }
 }

@@ -71,8 +71,9 @@ async getCollectionWatcher() {
           console.log('Update event:', updateEvent);
           return {
             documentKey: updateEvent.documentKey,
+            updateDescription: updateEvent.updateDescription,
             operationType: updateEvent.operationType,
-            updateDescription: updateEvent.fullDocument,
+            fullDocument: updateEvent.fullDocument,
           };
         }
         default: {
