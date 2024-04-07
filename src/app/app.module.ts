@@ -9,11 +9,13 @@ import { RealmAppService } from './realm-app.service';
 import { initializeApp } from './app-initializer';
 import { TrackerTagComponent } from './tracking-tags/tracking-tags.component';
 import { TrackerTagService } from './tracker_tags.service';
+import { LeafletMapComponent } from './leaflet-map/leaflet-map.component'; // Adjust the path as necessary
 
 @NgModule({
   declarations: [
     AppComponent,
     TrackerTagComponent, // Ensure this is included
+    LeafletMapComponent
   ],
   // If you're using TrackerTagComponent in other modules, add it to exports:
   // exports: [TrackerTagComponent],

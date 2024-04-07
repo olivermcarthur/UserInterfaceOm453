@@ -1,15 +1,15 @@
+// leaflet-map.component.ts
+
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
   selector: 'app-leaflet-map',
-  standalone: true,
-  imports: [],
   templateUrl: './leaflet-map.component.html',
   styleUrls: ['./leaflet-map.component.scss']
 })
 export class LeafletMapComponent implements OnInit, OnDestroy {
-  @ViewChild('map') mapContainer: ElementRef;
+  @ViewChild('map', { static: true }) mapContainer: ElementRef<HTMLDivElement>;
   private map: L.Map;
 
   ngOnInit(): void {
@@ -27,13 +27,13 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
       maxZoom: 4,
       center: [0, 0],
       zoom: 1,
-      crs: L.CRS.Simple // Use a simple coordinate reference system
+      crs: L.CRS.Simple
     });
 
     // Dimensions of the overlay image and the URL to the image
-    const w = 2048,
-          h = 1184,
-          url = './assets/basicfp1.jpg'; // Adjust the path to your image
+    const w = 2048;
+    const h = 1184;
+    const url = './assets/basicfp1.jpg'; // Adjust the path to your image
 
     // Calculate the image bounds
     const southWest = this.map.unproject([0, h], this.map.getMaxZoom());

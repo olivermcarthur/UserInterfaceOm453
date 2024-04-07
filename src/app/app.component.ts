@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   template: `
     <div class="content-wrapper">
+      <app-leaflet-map></app-leaflet-map>
       <router-outlet></router-outlet>
     </div>
   `,
