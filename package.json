@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^17.3.3",
     "@angular/platform-browser-dynamic": "^17.3.3",
     "@angular/router": "^17.3.3",
+    "@asymmetrik/ngx-leaflet": "^17.0.0",
     "leaflet": "^1.9.4",
     "realm-web": "^2.0.0",
     "rxjs": "~7.8.0",
