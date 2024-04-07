@@ -4,13 +4,19 @@ import { fromChangeEvent } from './custom-operators';
 import { RealmAppService } from './realm-app.service';
 import { TrackingTag } from './tracker_tags';
 import { filter, map } from 'rxjs/operators';
+import { BSON } from 'realm-web';
+
 
 // const isRelevantEvent = (event: any): event is Realm.Services.MongoDB.ChangeEvent<any> =>
 //   event.operationType === 'insert' ||
 //   event.operationType === 'update' ||
 //   event.operationType === 'delete';
 
-
+// Use the same Location interface as in tracker_tags.ts
+export interface Location {
+  x: BSON.Decimal128;
+  y: BSON.Decimal128;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -29,31 +35,31 @@ export class TrackerTagService {
 
     return collection.findOne({ _id: new ObjectId(id)}); // Return the document with the specified ID
   }
- // Asynchronously searches the collection using a text search - think this was for the search bar
-//  async search(query: string) {
-//   const collection = await this.getCollection(); // Get the collection from the database
-//   // Use MongoDB's aggregation pipeline to perform the search and return a promise of the results
-//   return collection?.aggregate([
-//     {
-//       $search: {
-//         index: 'auctions_search', // Specifies the index to use for the search
-//         autocomplete: { // Specifies that an autocomplete search should be used
-//           path: 'name', // The field in the document to search
-//           query, // The search string
-//         }
-//       }
-//     },
-//     {
-//       $limit: 5 // Limit the number of results returned
-//     },
-//     {
-//       $project: { // Specifies the fields to return in the results
-//         _id: 1,
-//         name: 1,
-//       }
-//     }
-//   ]) as Promise<TrackingTag[]>; // Casts the result to a promise of an array of Auction objects
-// }
+ //Asynchronously searches the collection using a text search - think this was for the search bar
+ async search(query: string) {
+  const collection = await this.getCollection(); // Get the collection from the database
+  // Use MongoDB's aggregation pipeline to perform the search and return a promise of the results
+  return collection?.aggregate([
+    {
+      $search: {
+        index: 'auctions_search', // Specifies the index to use for the search
+        autocomplete: { // Specifies that an autocomplete search should be used
+          path: 'name', // The field in the document to search
+          query, // The search string
+        }
+      }
+    },
+    {
+      $limit: 5 // Limit the number of results returned
+    },
+    {
+      $project: { // Specifies the fields to return in the results
+        _id: 1,
+        name: 1,
+      }
+    }
+  ]) as Promise<TrackingTag[]>; // Casts the result to a promise of an array of Auction objects
+}
 
 // Asynchronously loads a specified number of documents from the collection
 async load() {

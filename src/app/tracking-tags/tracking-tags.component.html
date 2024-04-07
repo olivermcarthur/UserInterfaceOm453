@@ -7,6 +7,6 @@
     <p>EPR URL: {{ tag.EPR_URL }}</p>
     <p>Receiver ID: {{ tag.receiver_id }}</p>
     <p>Radius: {{ tag.radius }}</p>
-    <p>Location: X: {{ tag.location.xg_location }}, Y: {{ tag.location.yg_location }}</p>
-  </div>
-  
+    <!-- Access the first element of the 'location' array if it exists -->
+    <p>Location: X: {{ tag.location?.x }}, Y: {{ tag.location?.y }}</p>
+</div>

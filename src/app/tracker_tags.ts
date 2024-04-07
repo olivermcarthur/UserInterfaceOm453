@@ -6,8 +6,8 @@ export interface Name {
 }
 
 export interface Location {
-  xg_location: BSON.Decimal128;
-  yg_location: BSON.Decimal128;
+  x: BSON.Decimal128;
+  y: BSON.Decimal128;
 }
 
 export interface TrackingTag {
