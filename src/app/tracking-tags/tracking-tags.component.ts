@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TrackerTagService } from '../tracker_tags.service';
 import { TrackingTag } from '../tracker_tags';
+import { BSON } from 'realm-web';
 
 @Component({
   selector: 'app-auction-catalogue',
@@ -46,9 +47,23 @@ export class TrackerTagComponent implements OnInit, OnDestroy {
       console.error('Update object is missing documentKey or _id:', update);
       return;
     }
+    // Attempts to find the index of the tracking tag in the local array (this.trackingTags)
+    // that matches the _id of the updated tag from the update object.
+    const updatedTagIndex = this.trackingTags.findIndex(tag => {
+      // Convert ObjectId to string if necessary
+      const localId = tag._id instanceof BSON.ObjectId ? tag._id.toString() : tag._id;
+      const updateId = update.documentKey._id instanceof BSON.ObjectId ? update.documentKey._id.toHexString() : update.documentKey._id;
 
-    const updatedTagIndex = this.trackingTags.findIndex(tag => tag._id === update.documentKey._id.toString());
+      // Log both IDs to compare them
+      console.log(`Local tag _id: ${localId}, Update object _id: ${updateId}`);
+
+      // Check if they match
+      return localId === updateId;
+    });
+
     console.log(`Index of updated tag: ${updatedTagIndex}`);
+    console.log ("this.trackingTags = ", this.trackingTags)
+    console.log ("this.trackingTags = ", this.trackingTags[updatedTagIndex])
 
     if (updatedTagIndex !== -1) {
       if (update.fullDocument) {
@@ -64,12 +79,8 @@ export class TrackerTagComponent implements OnInit, OnDestroy {
         });
       }
 
-        // Check if the updated tracking tag includes location information
-      if (update.fullDocument?.location || update.updateDescription?.updatedFields?.location) {
-        console.log('Location information in update:', update.fullDocument?.location || update.updateDescription.updatedFields.location);
-      } else {
-        console.log('No matching tracking tag found in local data for update:', update);
+       
+      console.log('No matching tracking tag found in local data for update:', update);
       }
     }
-  }
 }

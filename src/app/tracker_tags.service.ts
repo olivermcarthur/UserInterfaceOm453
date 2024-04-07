@@ -93,6 +93,7 @@ private async getCollection() {
   // Get the client for 'mongodb-atlas' service and the 'auctions' database, then the 'cars' collection
   const mongo = app.currentUser?.mongoClient('mongodb-atlas');
   const collection = mongo?.db('Test1').collection<TrackingTag>('T_tags');
+  console.log("Collection object is :", collection)
 
   if (!collection) {
     throw new Error('Failed to connect to server.');
