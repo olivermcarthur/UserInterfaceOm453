@@ -10,10 +10,12 @@ import { initializeApp } from './app-initializer';
 import { TrackerTagComponent } from './tracking-tags/tracking-tags.component';
 import { TrackerTagService } from './tracker_tags.service';
 import { LeafletMapComponent } from './leaflet-map/leaflet-map.component'; // Adjust the path as necessary
+// import {TitleComponent} from './title-component/title-component.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    // TitleComponent,
     TrackerTagComponent, // Ensure this is included
     LeafletMapComponent
   ],
