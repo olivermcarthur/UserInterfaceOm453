@@ -62,9 +62,9 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
       }).addTo(this.map);
       circle1.bindPopup('I am a circle.');
 
-      var circle2 = L.circle([-20, 20], {
+      var circle2 = L.circle([-74, 128], {
         color: 'blue',
-        fillColor: '#f03',
+        fillColor: 'blue',
         fillOpacity: 0.5,
         radius: 2 // The radius is in meters
       }).addTo(this.map);
