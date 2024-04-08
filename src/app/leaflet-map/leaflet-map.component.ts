@@ -53,6 +53,23 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
       // Fit the map to the image bounds
       this.map.fitBounds(bounds);
 
+      // Add circles to the map
+      var circle1 = L.circle([0, 0], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 2 // The radius is in meters
+      }).addTo(this.map);
+      circle1.bindPopup('I am a circle.');
+
+      var circle2 = L.circle([-20, 20], {
+        color: 'blue',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 2 // The radius is in meters
+      }).addTo(this.map);
+      circle2.bindPopup('I am a circle.');
+
       console.log('LeafletMapComponent map initialized');
     } catch (error) {
       console.error('LeafletMapComponent initMap error:', error);
