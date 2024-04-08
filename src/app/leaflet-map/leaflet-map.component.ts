@@ -15,9 +15,9 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
   private map: L.Map;
   private updatesSubscription: Subscription;
   trackingTags: TrackingTag[] = [];
+  markers = new Map<string, L.CircleMarker>();
 
   constructor(private trackingTagService: TrackerTagService) {  }
-
 
   async ngOnInit(): Promise<void> {
     console.log('LeafletMapComponent initialising');
@@ -72,12 +72,21 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
   if (tag.x_location !== undefined && tag.y_location !== undefined) {
     const coordinates = this.convertToMapCoordinates(tag.x_location, tag.y_location);
 
-    L.circle(coordinates, {
+    // Remove existing marker if it exists
+    const existingMarker = this.markers.get(tag._id.toString());
+    if (existingMarker) {
+      this.map.removeLayer(existingMarker);
+      this.markers.delete(tag._id.toString()); // Remove from the markers map as well
+    }
+
+    let marker = L.circle(coordinates, {
       color: 'red',
       fillColor: '#f03',
       fillOpacity: 0.5,
       radius: 1 // You may need to adjust the radius
     }).addTo(this.map).bindPopup(popupContent);
+    this.markers.set(tag._id.toString(), marker);
+
   } 
   else {
     // This will log if either x_location or y_location is undefined
