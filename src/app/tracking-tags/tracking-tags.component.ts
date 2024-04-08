@@ -17,7 +17,6 @@ export class TrackerTagComponent implements OnInit, OnDestroy {
   constructor(private trackingTagService: TrackerTagService) {  }
 
   async ngOnInit(): Promise<void> {
-    console.log('Component initializing and loading tracking tags...');
     this.trackingTags = await this.trackingTagService.load();
     console.log('Initial tracking tags loaded:', this.trackingTags);
 
@@ -42,7 +41,7 @@ export class TrackerTagComponent implements OnInit, OnDestroy {
   }
 
   private updateTrackingTag(update: any) {
-    console.log('Attempting to update tracking tag with:', update);
+    // console.log('Attempting to update tracking tag with:', update);
 
     if (!update.documentKey?._id) {
       console.error('Update object is missing documentKey or _id:', update);
@@ -56,20 +55,17 @@ export class TrackerTagComponent implements OnInit, OnDestroy {
       const updateId = update.documentKey._id instanceof BSON.ObjectId ? update.documentKey._id.toHexString() : update.documentKey._id;
 
       // Log both IDs to compare them
-      console.log(`Local tag _id: ${localId}, Update object _id: ${updateId}`);
+      // console.log(`Local tag _id: ${localId}, Update object _id: ${updateId}`);
 
       // Check if they match
       return localId === updateId;
     });
 
-    // console.log ("this.trackingTags = ", this.trackingTags[updatedTagIndex])
-    // console.log("tag data from update = ", update.updateDescription)
-
     if (updatedTagIndex !== -1) {
       // If the update includes the fullDocument, replace the local object entirely
       if (update.fullDocument) {
         this.trackingTags[updatedTagIndex] = update.fullDocument;
-        console.log('Replaced with full document, and is now:', this.trackingTags[updatedTagIndex]);
+        console.log('Change stream activated and full document is replaced with:', this.trackingTags[updatedTagIndex]);
       } 
       else {
         // If only updated fields are provided, merge them with the existing object
@@ -89,7 +85,6 @@ export class TrackerTagComponent implements OnInit, OnDestroy {
           });
           console.log('Removed specified fields:', this.trackingTags[updatedTagIndex]);
         }
-      console.log("Update complete")
       }
     } 
     else {

@@ -68,7 +68,6 @@ async getCollectionWatcher() {
         }
         case 'update': {
           const updateEvent = event as Realm.Services.MongoDB.UpdateEvent<TrackingTag>;
-          console.log('Update event:', updateEvent);
           return {
             documentKey: updateEvent.documentKey,
             updateDescription: updateEvent.updateDescription,
