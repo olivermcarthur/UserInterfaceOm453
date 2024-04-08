@@ -58,6 +58,14 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
       if (tag.Active) {
         this.createCircle(tag);
       }
+      else{
+        const existingMarker = this.markers.get(tag._id.toString());
+        if (existingMarker) {
+        this.map.removeLayer(existingMarker);
+        this.markers.delete(tag._id.toString()); // Remove from the markers map as well
+    }
+
+      }
     });
   }
 
