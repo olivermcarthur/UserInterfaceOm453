@@ -127,6 +127,7 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
     else {
       console.log('No matching tracking tag found in local data for update:', update);
     }
+    this.plotActiveTrackingTags(); // Plot the active tags on the map
   }
 
   private initMap(): void {
