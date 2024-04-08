@@ -1,7 +1,9 @@
-// leaflet-map.component.ts
-
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
+import { Subscription } from 'rxjs';
+import { TrackerTagService } from '../tracker_tags.service';
+import { TrackingTag } from '../tracker_tags';
+import { BSON } from 'realm-web';
 
 @Component({
   selector: 'app-leaflet-map',
