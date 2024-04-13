@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { TrackerTagService } from '../tracker_tags.service';
 import { TrackingTag } from '../tracker_tags';
 import { BSON } from 'realm-web';
+import { ReceiverService } from '../receiver.service';
+import { Receiver } from '../receiver';
 
 @Component({
   selector: 'app-leaflet-map',
@@ -15,14 +17,23 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
   private map: L.Map;
   private updatesSubscription: Subscription;
   trackingTags: TrackingTag[] = [];
+  receivers: Receiver[] = [];
   markers = new Map<string, L.CircleMarker>();
 
-  constructor(private trackingTagService: TrackerTagService) {  }
+  constructor(
+    private trackingTagService: TrackerTagService,
+    private receiverService: ReceiverService
+  ) {  }
+
 
   async ngOnInit(): Promise<void> {
     console.log('LeafletMapComponent initialising');
     
     this.trackingTags = await this.trackingTagService.load();
+    console.log('Initial tracking tags loaded:', this.trackingTags);
+
+    // Load the receivers
+    this.receivers = await this.receiverService.load();
     console.log('Initial tracking tags loaded:', this.trackingTags);
 
     const watcher = await this.trackingTagService.getCollectionWatcher();
@@ -41,6 +52,7 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
 
     this.initMap();
     this.plotActiveTrackingTags(); // Plot the active tags on the map
+    this.plotReceivers();
 
   }
 
@@ -67,6 +79,46 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
 
       }
     });
+  }
+
+  private plotReceivers(): void {
+    this.receivers.forEach(receiver => {
+      this.createReceiverCircle(receiver);
+    });
+  }
+  
+
+  private createReceiverCircle(receiver: Receiver): void {
+    const popupContent = `
+    <strong>ReceiverID:</strong> ${receiver.ReceiverID || 'N/A'}<br>
+    <strong>Area Code:</strong> ${receiver.AreaCode || 'N/A'}<br>
+    <strong>Time of Update:</strong> ${receiver.Time_of_update.toLocaleString()}<br>
+  `;
+
+  if (receiver.x_location !== undefined && receiver.y_location !== undefined) {
+    const coordinates = this.convertToMapCoordinates(receiver.x_location, receiver.y_location);
+
+    // Remove existing marker if it exists
+    const existingMarker = this.markers.get(receiver._id.toString());
+    if (existingMarker) {
+      this.map.removeLayer(existingMarker);
+      this.markers.delete(receiver._id.toString()); // Remove from the markers map as well
+    }
+
+    let marker = L.circle(coordinates, {
+      color: 'blue',
+      fillColor: 'blue',
+      fillOpacity: 0.5,
+      radius: 1 // You may need to adjust the radius
+    }).addTo(this.map).bindPopup(popupContent);
+    this.markers.set(receiver._id.toString(), marker);
+
+  } 
+  else {
+    // This will log if either x_location or y_location is undefined
+    console.log(`Plot has been abandoned`);
+    return
+  }
   }
 
   private createCircle(tag: TrackingTag): void {
