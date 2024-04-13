@@ -159,8 +159,11 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
   // Conversion method
   private convertToMapCoordinates(x: number, y: number): L.LatLng {
     // Apply the conversion logic
-    const lat = -y; // Since y = -y according to your logic
-    const lng = x;  // x remains the same
+    const pixels_per_meter = 104
+    const origin_adjustment_x = 187.7/pixels_per_meter
+    const origin_adjustment_y = -1439.6/16 // 16 is to get from pixels on photo to UI
+    const lat = origin_adjustment_y+(y*(pixels_per_meter/16)); // Since y = -y according to your logic
+    const lng = ((x+(origin_adjustment_x))*pixels_per_meter)/16; 
     return new L.LatLng(lat, lng);
   }
 
@@ -228,22 +231,22 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
       // Fit the map to the image bounds
       this.map.fitBounds(bounds);
 
-      // Add circles to the map
-      var circle1 = L.circle([0, 0], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 2 // The radius is in meters
-      }).addTo(this.map);
-      circle1.bindPopup('I am a circle.');
+      // // Add circles to the map
+      // var circle1 = L.circle([0, 0], {
+      //   color: 'red',
+      //   fillColor: '#f03',
+      //   fillOpacity: 0.5,
+      //   radius: 2 // The radius is in meters
+      // }).addTo(this.map);
+      // circle1.bindPopup('I am a circle.');
 
-      var circle2 = L.circle([-74, 128], {
-        color: 'blue',
-        fillColor: 'blue',
-        fillOpacity: 0.5,
-        radius: 2 // The radius is in meters
-      }).addTo(this.map);
-      circle2.bindPopup('I am a circle.');
+      // var circle2 = L.circle([-193, 179], {
+      //   color: 'blue',
+      //   fillColor: 'blue',
+      //   fillOpacity: 0.5,
+      //   radius: 2 // The radius is in meters
+      // }).addTo(this.map);
+      // circle2.bindPopup('I am a circle.');
 
       console.log('LeafletMapComponent map initialized');
     } catch (error) {
