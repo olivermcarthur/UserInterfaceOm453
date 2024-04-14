@@ -40,7 +40,7 @@ private async getCollection() {
   const app = await this.realmAppService.getAppInstance(); // Get the app instance from RealmAppService
   // Get the client for 'mongodb-atlas' service and the 'auctions' database, then the 'cars' collection
   const mongo = app.currentUser?.mongoClient('mongodb-atlas');
-  const collection = mongo?.db('Test2').collection<Receiver>('Receivers');
+  const collection = mongo?.db('Demo2').collection<Receiver>('Receivers');
   console.log("Collection object is :", collection)
 
   if (!collection) {
