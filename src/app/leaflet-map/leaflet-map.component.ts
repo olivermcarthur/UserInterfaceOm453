@@ -217,7 +217,7 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
       // Dimensions of the overlay image and the URL to the image
       const w = 2573;
       const h = 1404;
-      const url = './assets/room_simplified.jpg'; // Adjust the path to your image
+      const url = './assets/mapv3.jpg'; // Adjust the path to your image
 
       // Calculate the image bounds
       const southWest = this.map.unproject([0, h], this.map.getMaxZoom());
