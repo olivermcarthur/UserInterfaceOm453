@@ -109,7 +109,7 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
       color: '#8A1538',  // Outline color for the circle
       fillColor: '#8A1538', // Fill color for the circle
       fillOpacity: 0.5,
-      radius: 1 // You may need to adjust the radius
+      radius: 1.5 // You may need to adjust the radius
     }).addTo(this.map).bindPopup(popupContent);
     this.markers.set(receiver._id.toString(), marker);
 
@@ -143,7 +143,7 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
       color: '#005EB8',  // Outline color
       fillColor: '#005EB8', // Fill color
       fillOpacity: 0.5,
-      radius: 1 // You may need to adjust the radius
+      radius: 1.5 // You may need to adjust the radius
     }).addTo(this.map).bindPopup(popupContent);
     this.markers.set(tag._id.toString(), marker);
 
