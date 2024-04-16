@@ -106,8 +106,8 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
     }
 
     let marker = L.circle(coordinates, {
-      color: 'blue',
-      fillColor: 'blue',
+      color: '#8A1538',  // Outline color for the circle
+      fillColor: '#8A1538', // Fill color for the circle
       fillOpacity: 0.5,
       radius: 1 // You may need to adjust the radius
     }).addTo(this.map).bindPopup(popupContent);
@@ -140,8 +140,8 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
     }
 
     let marker = L.circle(coordinates, {
-      color: 'red',
-      fillColor: '#f03',
+      color: '#005EB8',  // Outline color
+      fillColor: '#005EB8', // Fill color
       fillOpacity: 0.5,
       radius: 1 // You may need to adjust the radius
     }).addTo(this.map).bindPopup(popupContent);
