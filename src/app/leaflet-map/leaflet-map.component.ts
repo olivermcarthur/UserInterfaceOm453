@@ -109,10 +109,9 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
       color: '#8A1538',  // Outline color for the circle
       fillColor: '#8A1538', // Fill color for the circle
       fillOpacity: 0.5,
-      radius: 1.5 // You may need to adjust the radius
+      radius: 1.1 // You may need to adjust the radius
     }).addTo(this.map).bindPopup(popupContent);
     this.markers.set(receiver._id.toString(), marker);
-
   } 
   else {
     // This will log if either x_location or y_location is undefined
@@ -143,7 +142,7 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
       color: '#005EB8',  // Outline color
       fillColor: '#005EB8', // Fill color
       fillOpacity: 0.5,
-      radius: 1.5 // You may need to adjust the radius
+      radius: 1.1 // You may need to adjust the radius
     }).addTo(this.map).bindPopup(popupContent);
     this.markers.set(tag._id.toString(), marker);
 
@@ -159,9 +158,9 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
   // Conversion method
   private convertToMapCoordinates(x: number, y: number): L.LatLng {
     // Apply the conversion logic
-    const pixels_per_meter = 104
-    const origin_adjustment_x = 187.7/pixels_per_meter
-    const origin_adjustment_y = -1439.6/16 // 16 is to get from pixels on photo to UI
+    const pixels_per_meter = 101.3
+    const origin_adjustment_x = 60/pixels_per_meter
+    const origin_adjustment_y = -1321/16 // 16 is to get from pixels on photo to UI
     const lat = origin_adjustment_y+(y*(pixels_per_meter/16)); // Since y = -y according to your logic
     const lng = ((x+(origin_adjustment_x))*pixels_per_meter)/16; 
     return new L.LatLng(lat, lng);
@@ -216,9 +215,9 @@ export class LeafletMapComponent implements OnInit, OnDestroy {
       });
 
       // Dimensions of the overlay image and the URL to the image
-      const w = 2867;
-      const h = 3086;
-      const url = './assets/map_workingv.jpg'; // Adjust the path to your image
+      const w = 2573;
+      const h = 1404;
+      const url = './assets/room_simplified.jpg'; // Adjust the path to your image
 
       // Calculate the image bounds
       const southWest = this.map.unproject([0, h], this.map.getMaxZoom());
