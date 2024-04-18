@@ -1,20 +1,13 @@
 <h1 class="center">Active Tracking Tags</h1>
 
 <div *ngFor="let tag of trackingTags">
-  <p>ID: {{ tag._id }}</p>
-  <p>Last Update: {{ tag.Time_of_update | date: 'medium' }}</p>
   <p>Tag ID: {{ tag.TagID }}</p>
+  <p>Last Update: {{ tag.Time_of_update | date: 'medium' }}</p>
   <ng-container *ngIf="tag.name">
     <p>Name: {{ tag.name }}</p>
   </ng-container>
   <ng-container *ngIf="tag.EPR_URL">
     <p>EPR URL: {{ tag.EPR_URL }}</p>
-  </ng-container>
-  <ng-container *ngIf="tag.receiver_id">
-    <p>Receiver ID: {{ tag.receiver_id }}</p>
-  </ng-container>
-  <ng-container *ngIf="tag.radius">
-    <p>Radius: {{ tag.radius }}</p>
   </ng-container>
   <ng-container *ngIf="tag.x_location && tag.y_location">
     <p>Location: X: {{ tag.x_location }}, Y: {{ tag.y_location }}</p>
