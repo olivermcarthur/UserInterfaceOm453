@@ -1,15 +1,36 @@
-<h1 class="center">Active Tracking Tags</h1>
+<div class="tracking-tags-container">
+  <div class="active-tags">
+    <h1>Active Tracking Tags</h1>
+    <ng-container *ngFor="let tag of trackingTags">
+      <div class="tag-entry" *ngIf="tag.Active">
+        <p><strong>Tag ID:</strong> {{ tag.TagID }}</p>
+        <p><strong>Last Update:</strong> {{ tag.Time_of_update | date: 'medium' }}</p>
+        <ng-container *ngIf="tag.name">
+          <p><strong>Name:</strong> {{ tag.name }}</p>
+        </ng-container>
+        <ng-container *ngIf="tag.EPR_URL">
+          <p><strong>EPR URL:</strong> {{ tag.EPR_URL }}</p>
+        </ng-container>
+        <ng-container *ngIf="tag.x_location && tag.y_location">
+          <p><strong>Location:</strong> X: {{ tag.x_location }}, Y: {{ tag.y_location }}</p>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
 
-<div *ngFor="let tag of trackingTags">
-  <p>Tag ID: {{ tag.TagID }}</p>
-  <p>Last Update: {{ tag.Time_of_update | date: 'medium' }}</p>
-  <ng-container *ngIf="tag.name">
-    <p>Name: {{ tag.name }}</p>
-  </ng-container>
-  <ng-container *ngIf="tag.EPR_URL">
-    <p>EPR URL: {{ tag.EPR_URL }}</p>
-  </ng-container>
-  <ng-container *ngIf="tag.x_location && tag.y_location">
-    <p>Location: X: {{ tag.x_location }}, Y: {{ tag.y_location }}</p>
-  </ng-container>
+  <div class="inactive-tags">
+    <h1>Inactive Tracking Tags</h1>
+    <ng-container *ngFor="let tag of trackingTags">
+      <div class="tag-entry" *ngIf="!tag.Active">
+        <p><strong>Tag ID:</strong> {{ tag.TagID }}</p>
+        <p><strong>Last Update:</strong> {{ tag.Time_of_update | date: 'medium' }}</p>
+        <ng-container *ngIf="tag.name">
+          <p><strong>Name:</strong> {{ tag.name }}</p>
+        </ng-container>
+        <ng-container *ngIf="tag.EPR_URL">
+          <p><strong>EPR URL:</strong> {{ tag.EPR_URL }}</p>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
 </div>
