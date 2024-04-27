@@ -1,0 +1,39 @@
+.tracking-tags-container {
+    display: flex;
+    justify-content: space-between; /* This will place the two divs on opposite ends; you can change it to 'flex-start' to align them to the left side */
+  }
+
+  /* Additional styles */
+
+/* This sets the color and underline for both titles */
+.active-tags h1,
+.inactive-tags h1 {
+  color: #005EB8; /* NHS Blue */
+  text-decoration: underline; /* Adds an underline to the title */
+}
+.tracking-tags-container {
+    /* Add top padding to the tracking tags container */
+    padding-top: 20px; /* Adjust the value to create the desired amount of space */
+  }
+  
+  
+  .active-tags,
+  .inactive-tags {
+    width: 48%; /* This assumes you want to split the width almost equally between the two sets of tags */
+    margin-right: 2%; /* This will ensure there is some space between the two columns */
+  }
+  
+  .tag-entry {
+    text-align: left; /* Aligns the text to the left */
+    margin-bottom: 10px; /* Adds some space between each tag entry */
+  }
+  
+  .tag-entry p {
+    margin: 0; /* Removes default paragraph margins */
+    padding: 2px 0; /* Adds some padding for readability */
+  }
+  
+  h1 {
+    text-align: left; /* Ensures headers are also aligned to the left */
+  }
+  

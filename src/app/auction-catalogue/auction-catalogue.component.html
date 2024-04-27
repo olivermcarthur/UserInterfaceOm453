@@ -39,9 +39,6 @@
 
         <mat-card-content>
             <p>
-                <app-count-down [endDate]="auction.ends"></app-count-down>
-            </p>
-            <p>
                 <span class="text-label">Current bid:</span>
                 <span [ngClass]="pulsingText[i]"
                 (animationend)="pulsingText[i].pulsing=false">

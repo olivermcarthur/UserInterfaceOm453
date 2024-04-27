@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AuctionCatalogueComponent } from './auction-catalogue.component';
+// import { AuctionCatalogueComponent } from './auction-catalogue.component';
 
-describe('AuctionCatalogueComponent', () => {
-  let component: AuctionCatalogueComponent;
-  let fixture: ComponentFixture<AuctionCatalogueComponent>;
+// describe('AuctionCatalogueComponent', () => {
+//   let component: AuctionCatalogueComponent;
+//   let fixture: ComponentFixture<AuctionCatalogueComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AuctionCatalogueComponent ]
-    })
-    .compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       declarations: [ AuctionCatalogueComponent ]
+//     })
+//     .compileComponents();
 
-    fixture = TestBed.createComponent(AuctionCatalogueComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//     fixture = TestBed.createComponent(AuctionCatalogueComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

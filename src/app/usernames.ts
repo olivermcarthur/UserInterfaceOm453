@@ -1,7 +1,0 @@
-export const getRandomUsername = () =>
-  usernames[Math.floor(Math.random() * usernames.length)];
-
-export const isInUsernamesList = (u: string) =>
-  usernames.includes(u);
-
-const usernames = ["Xera", "Katma", "Blue", "Giant-Man", "Dynamite", "Hex", "Ghost", "Arnim Zola", "Firestorm", "Abbey", "Grey Gargoyle", "Alpha Flight", "Firestar", "Flaberella", "Alexander Pierce", "Caliban", "Choice", "Babaing", "Gateway", "Erik the Red", "Hairball", "Alvin Maker", "Cloak and Dagger", "Arachne", "Power Pack", "Expediter", "Mega Man", "Puma", "Princess", "Senator Kelly", "Chat", "Gwen", "Goliath", "Forgotten One", "Flint", "Geiger", "Gorgon", "Power", "Arsenal", "Gabe Jones", "Randall", "Matthew Murdock", "Death", "H.E.R.B.I.E.", "Alex Power", "Maximum", "Diamondback", "Doomsday", "Elsa Bloodstone", "Glorian", "Miss America", "Venus Dee Milo", "Clobberella", "Graphics", "Miss", "Adam Destine", "Deathbird", "Maiden", "Doomsday Man", "Saturn", "Pandemic", "Arrowette", "Arsenic", "Aaron Stack", "Mordo", "Doc Savage", "Typhoid Mary", "Ajaxis", "U-Go Girl", "Triceraton", "Night Nurse", "Carol Hines", "Aurora", "Tiger's Beautiful Daughter", "Tick", "A.I.M.", "Elektra", "Neon", "Pepper Potts", "Terra", "Samus", "Captain Stacy", "Umar", "Nekra", "Guile", "Orphan", "Galactus", "Mesmero", "Mikhail Rasputin", "Fleet Tracking", "Stellaris", "Hank Pym", "Sym", "Celestials", "Captain America", "Happy Hogan", "Cimarron", "Constrictor", "Super-Skrull", "Donald Blake"];
